@@ -6,6 +6,4 @@ importe recibido.
 
 aplicar_descuento = lambda importe: importe * 0.9
 
-importe_original = 100
-importe_con_descuento = aplicar_descuento(importe_original)
-print("El importe con descuento del 10% es:", importe_con_descuento)
+print("El importe con descuento del 10% es:", int(aplicar_descuento(100)))

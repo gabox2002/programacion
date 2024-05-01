@@ -6,6 +6,4 @@ impar.
 
 es_par = lambda numero: "Par" if numero % 2 == 0 else "Impar"
 
-numero = 4
-resultado = es_par(numero)
-print("El número es:", resultado)
+print("El número es:", es_par(3))

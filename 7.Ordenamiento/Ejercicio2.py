@@ -6,10 +6,10 @@ Puntos = [100,98,56,25,87,38,64,42,28,91,66,35,49,57,98]
 Desarrollar una función que realice el ordenamiento de las listas por nombre de manera ascendente, si el nombre es el mismo, debe ordenar por puntos de manera descendente.
 '''
 # Listas de nombres y puntos
-nombres = ["Matematica","Investigacion Operativa","Ingles","Literatura","Ciencias","Sociales","Computacion","Ingles","Algebra","Contabilidad","Artistica", "Algoritmos", "Base de Datos", "Ergonomia", "Naturaleza"]
+nombres = ["Matematica","Investigacion Operativa","Ingles","Literatura","Ciencias Sociales","Computacion","Ingles","Algebra","Contabilidad","Artistica", "Algoritmos", "Base de Datos", "Ergonomia", "Naturaleza"]
 puntos = [     100,                   98,             56,         25,        87,        38,         64,        42,       28,          91,           66,          35,            49,            57,         98]
 
-def ordenar_por_nombre_puntos(nombres:list, puntos:list)->list:
+def ordenar_por_nombre(nombres:list, puntos:list)->list:
     """
     Recibe: nombres (list): Lista de nombres.
             puntos (list): Lista de puntos.
@@ -40,7 +40,7 @@ def ordenar_por_nombre_puntos(nombres:list, puntos:list)->list:
     return nombres, puntos
 
 # Llamada a la función para ordenar por nombre ascendente y puntos descendente
-ordenar_por_nombre_puntos(nombres, puntos)
+ordenar_por_nombre(nombres, puntos)
 
 # Impresión de las listas ordenadas
 print("Nombres ordenados:", nombres)

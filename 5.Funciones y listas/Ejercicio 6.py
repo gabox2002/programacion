@@ -11,8 +11,11 @@ def mostrar_nombres():
     Función que muestra los nombres de las personas. no recibe, no valida ni retorna algun valor
     """
     print("Nombres de las personas:")
-    for nombre in nombres:
-        print(nombre)
+
+    lista_nombres = nombres
+    
+    for i in range(len(lista_nombres)):
+        print(lista_nombres[i])
 
 # Llama a la función para mostrar los nombres de las personas
 mostrar_nombres()
