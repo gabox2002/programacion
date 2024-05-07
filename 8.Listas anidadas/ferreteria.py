@@ -25,7 +25,6 @@ def verificar_producto(producto:str):
     Retorna: True si el producto está en la estantería
              False si no lo está.
     """
-    # Iterar sobre cada fila y cajón en la estantería
     for fila in estanteria:
         for cajon in fila:
             if cajon[0] == producto:
@@ -52,7 +51,6 @@ def reponer_mercaderia(producto:str, cantidad:int):
     Retorna: True si la reposición fue exitosa
              False si el producto no está en la estantería
     """
-    # Iterar sobre cada fila y cajón en la estantería
     for fila in estanteria:
         for cajon in fila:
             if cajon[0] == producto:
@@ -69,7 +67,6 @@ def vender_mercaderia(producto:str, cantidad:int):
     Retorna: True si la venta fue realizada(si hay suficiente stock para la venta)
              False si no hay suficiente stock.
     """
-    # Iterar sobre cada fila y cajón en la estantería
     for fila in estanteria:
         for cajon in fila:
             if cajon[0] == producto:
@@ -89,7 +86,6 @@ def listar_inventario(estanteria:list):
     Recibe: estanteria (lista de listas)
     No valida ningún dato. No retorna ningún valor.
     """
-    # Iterar sobre cada fila y cajón en la estantería
     for fila in estanteria:
         for cajon in fila:
             print(f"Producto: {cajon[0]}, Stock: {cajon[1]}")

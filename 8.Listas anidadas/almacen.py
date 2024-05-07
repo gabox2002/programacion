@@ -1,137 +1,151 @@
-#1
-def alta_de_productos(productos):
-    '''
-    Recibe: La lista de productos.
-    Valida: Verifica que la fila y columna estén dentro del rango permitido y que la ubicación no esté ocupada por otro producto.
-    Retorna: La lista actualizada de productos después de agregar un nuevo producto.
-    '''
-    nombre = input("Ingrese el nombre del producto: ")
-    cantidad = int(input("Ingrese la cantidad disponible: "))
+productos = [
+    ["botellas", 3, [1, 2]],
+    ["frascos", 8, [1, 4]],
+    ["fideos", 4, [2, 3]],
+    ["leche", 6, [3, 4]]
+]
 
+def mostrar_menu():
+    """
+    Recibe: No recibe parámetros explícitos.
+    Valida: No valida ningún dato.
+    Retorna: No retorna ningún valor explícito, simplemente muestra el menú de opciones disponibles para el usuario.
+    """
+    print("\n--- Menú de opciones ---")
+    print("1. Alta de productos")
+    print("2. Baja de productos")
+    print("3. Modificar productos")
+    print("4. Listar productos")
+    print("5. Listar productos ordenados por nombre")
+    print("6. Salir")
+
+def verificar_producto(nombre_producto:str):
+    """
+    Recibe: El nombre del producto a verificar.
+    Valida: Verifica si el producto está presente en el almacén.
+    Retorna: Un valor booleano (True/False) indicando si el producto está en el almacén.
+    """
+    for producto in productos:
+        if nombre_producto == producto[0]:
+            return True
+    return False
+
+def ingresar_producto_valido(mensaje: str):
+    """
+    Recibe: Un mensaje que se mostrará al usuario para solicitar el ingreso del producto.
+    Valida: Verifica si el producto ingresado por el usuario está presente en el almacén.
+    Retorna: El producto ingresado si está en el almacén, de lo contrario solicita nuevamente el ingreso del producto.
+    """
     while True:
-        nueva_fila = int(input("Ingrese la fila de la góndola (1, 2 o 3): "))
-        nueva_columna = int(input("Ingrese la columna de la góndola (1, 2, 3 o 4): "))
-
-        # Verificamos que la fila y columna estén dentro del rango permitido
-        validar_ubicacion = lambda fila, columna: 1 <= fila <= 3 and 1 <= columna <= 4
-        if validar_ubicacion(nueva_fila, nueva_columna):
-            # Verificamos si la fila y columna ya están ocupadas por otro producto
-            ubicacion_ocupada = False
-            for producto in productos:
-                if producto[2][0] == nueva_fila and producto[2][1] == nueva_columna:
-                    ubicacion_ocupada = True
-                    break
-
-            if ubicacion_ocupada:
-                print("Ya hay un producto en esta ubicación. Elija una ubicación diferente.")
-            else:
-                # Si la ubicación está disponible, agregamos el producto a la lista
-                producto = [nombre, cantidad, [nueva_fila, nueva_columna]]
-                productos.append(producto)
-                print("Producto agregado exitosamente.")
-                print(productos)
-                return productos
+        nombre = input(mensaje)
+        if verificar_producto(nombre):
+            return nombre
         else:
-            print("La ubicación ingresada no es válida. Por favor, ingrese una nueva fila y/o columna válida.")
+            print("El producto ingresado no se encuentra en el almacén.")
 
-#2
-def baja_de_productos(productos: list) -> list:
+def alta_producto():
     '''
-    Recibe: La lista de productos.
-    Valida: -
-    Retorna: La lista actualizada de productos después de eliminar el producto especificado.
-    '''
-    nombre = input("Ingrese el nombre del producto que desea dar de baja: ")
-
-    # Buscamos el producto por su nombre y lo eliminamos de la lista
-    for producto in productos:
-        if producto[0] == nombre:
-            productos.remove(producto)
-            print("Producto dado de baja correctamente.")
-            print(productos)
+    Recibe: No recibe parámetros explícitos.
+    Valida: No valida datos directamente, pero verifica si la posición ingresada para el nuevo producto está ocupada.
+    Retorna: No retorna ningún valor explícito, simplemente agrega el nuevo producto a la lista de productos.
+        '''
+    nombre = input("Ingrese el nombre del producto: ")
+    cantidad = int(input("Ingrese la cantidad inicial: "))
+    
+    # Solicitar la posición al usuario
+    while True:
+        fila = int(input("Ingrese la fila de ubicación: "))
+        columna = int(input("Ingrese la columna de ubicación: "))
+        
+        # Verificar si la posición está ocupada
+        ocupada = False
+        for producto in productos:
+            if producto[2] == [fila, columna]:
+                ocupada = True
+                break
+        
+        if ocupada:
+            print(f"Error: La posición {fila, columna} ya está ocupada.")
+        else:
             break
-    else:
-        print("El producto no fue encontrado.")
+    
+    productos.append([nombre, cantidad, [fila, columna]])
+    print("Producto agregado correctamente.")
 
-#3
-def modificar_productos(productos: list) -> list:
+def baja_producto():
     '''
-    Recibe: La lista de productos.
-    Valida: Verifica que la nueva posición esté dentro del rango permitido y que no esté ocupada por otro producto.
-    Retorna: La lista actualizada de productos después de modificar un producto existente, o la misma lista si el producto no se encuentra.
+    Recibe: No recibe parámetros explícitos.
+    Valida: Verifica si el nombre del producto ingresado por el usuario existe en el almacén.
+    Retorna: No retorna ningún valor explícito, simplemente elimina el producto de la lista de productos si se encuentra.
     '''
-    nombre = input("Ingrese el nombre del producto que desea modificar: ")
+    nombre = ingresar_producto_valido("Ingrese el nombre del producto a dar de baja: ")
+    for i in range(len(productos)):
+        if productos[i][0] == nombre:
+            productos.pop(i)
+            print("Producto dado de baja correctamente.")
+            return
 
+def modificar_producto():
+    '''
+    Recibe: No recibe parámetros explícitos.
+    Valida: Verifica si el nombre del producto ingresado por el usuario existe en el almacén y valida la opción ingresada por el usuario (cantidad/posición).
+    Retorna: No retorna ningún valor explícito, simplemente modifica la cantidad o la posición del producto en la lista de productos.
+    '''
+    nombre = ingresar_producto_valido("Ingrese el nombre del producto a modificar: ")
     for producto in productos:
         if producto[0] == nombre:
-            nueva_cantidad = int(input("Ingrese la nueva cantidad: "))
             while True:
-                nueva_fila = int(input("Ingrese la nueva fila de la góndola (1, 2 o 3): "))
-                nueva_columna = int(input("Ingrese la nueva columna de la góndola (1, 2, 3 o 4): "))
-
-                # Verificamos que la fila y columna estén dentro del rango permitido
-                validar_ubicacion = lambda fila, columna: 1 <= fila <= 3 and 1 <= columna <= 4
-                if validar_ubicacion(nueva_fila, nueva_columna):
-                    # Verificamos si la nueva posición está ocupada por otro producto
-                    ubicacion_ocupada = False
-                    for producto_a_modificar in productos:
-                        if producto_a_modificar != producto and producto_a_modificar[2] == [nueva_fila, nueva_columna]:
-                            ubicacion_ocupada = True
-                            break
-
-                    if ubicacion_ocupada:
-                        print("La ubicación ingresada ya está ocupada por otro producto.")
-                    else:
-                        # Si llegamos aquí, la nueva posición no está ocupada por otro producto
-                        # Si la nueva posición es la misma que la actual del producto, conservamos la posición
-                        if [nueva_fila, nueva_columna] == producto[2]:
-                            producto[1] = nueva_cantidad
+                opcion = input("¿Qué desea modificar? (cantidad/posicion): ")
+                if opcion == "cantidad":
+                    nueva_cantidad = int(input("Ingrese la nueva cantidad: "))
+                    producto[1] = nueva_cantidad
+                    print("Cantidad modificada correctamente.")
+                    break
+                elif opcion == "posicion":
+                    # Solicitar la nueva posición al usuario
+                    while True:
+                        nueva_fila = int(input("Ingrese la nueva fila de ubicación: "))
+                        nueva_columna = int(input("Ingrese la nueva columna de ubicación: "))
+                        
+                        # Verificar si la nueva posición está ocupada
+                        ocupada = False
+                        for otro_producto in productos:
+                            if otro_producto != producto and otro_producto[2] == [nueva_fila, nueva_columna]:
+                                ocupada = True
+                                break
+                        
+                        if ocupada:
+                            print(f"Error: La posición {nueva_fila, nueva_columna} ya está ocupada.")
                         else:
-                            producto[1] = nueva_cantidad
                             producto[2] = [nueva_fila, nueva_columna]
-
-                        print("Producto modificado correctamente.")
-                        print(productos)
-                        return productos
+                            print("Ubicación modificada correctamente.")
+                            break
+                    break
                 else:
-                    print("La ubicación ingresada no es válida. Por favor, ingrese una nueva fila y/o columna válida.")
-    # Si se recorre toda la lista de productos y no se encuentra el producto
-    print("El producto no fue encontrado en la lista.")
-    return productos
+                    print("Opción inválida. Por favor, ingrese 'cantidad' o 'posicion'.")
+            return
 
-#4
-def listar_productos(productos: list) -> list:
+def listar_productos():
     '''
-    Recibe: La lista de productos.
-    Valida: -
-    Retorna: La misma lista de productos.
+    Recibe: No recibe parámetros explícitos.
+    Valida: No valida ningún dato.
+    Retorna: No retorna ningún valor explícito, simplemente muestra la lista de productos en el almacén.
     '''
-    if productos:
-        print("Listado de productos:")
-        for producto in productos:
-            print(f"Nombre: {producto[0]}, Cantidad: {producto[1]}, Ubicación: {producto[2]}")
-    else:
-        print("No hay productos en la lista.")
-    return productos
+    for producto in productos:
+        print(f"Nombre: {producto[0]}, Cantidad: {producto[1]}, Ubicación: ({producto[2][0]}, {producto[2][1]})")
 
-#5
-def lista_productos_ordenados(productos: list) -> None:
+def listar_productos_ordenados():
     '''
-    Recibe: La lista de productos.
-    Valida: -
-    Retorna: No retorna, solo imprime el listado de productos ordenado por nombre.
+    Recibe: No recibe parámetros explícitos.
+    Valida: No valida ningún dato.
+    Retorna: No retorna ningún valor explícito, simplemente ordena la lista de productos por nombre y luego la muestra.
     '''
-    if productos:
-        # Algoritmo de ordenamiento de la burbuja
-        for i in range(len(productos) - 1):
-            for j in range(i+1, len(productos)):
-                if(productos[i] > productos[j]):
-                    aux = productos[i]
-                    productos[i] = productos[j]
-                    productos[j] = aux
-        print("Listado de productos ordenado por nombre:")
-        for producto in productos:
-            print(f"Nombre: {producto[0]}, Cantidad: {producto[1]}, Ubicación: {producto[2]}")
-    else:
-        print("No hay productos en la lista.")
+    for i in range(len(productos)-1):
+        for j in range(i+1, len(productos)):
+            if(productos[i][0] > productos[j][0]):  #[0] porque quiero que ordene por nombre
+                lista_aux = productos[i]
+                productos[i] = productos[j]
+                productos[j] = lista_aux
 
+    for producto in productos:
+        print(f"Nombre: {producto[0]}, Cantidad: {producto[1]}, Ubicación: ({producto[2][0]}, {producto[2][1]})")
